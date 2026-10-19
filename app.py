@@ -1,6 +1,6 @@
-import joblib
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 import streamlit as st
 
 st.set_page_config(
@@ -16,17 +16,45 @@ st.markdown(
 
 
 @st.cache_resource
-def load_model():
-    return joblib.load("model/random_forest_model.pkl")
+def get_trained_model():
+    np.random.seed(42)
+    n_samples = 500
 
+    attendance = np.random.uniform(50, 100, n_samples)
+    internal_test_1 = np.random.uniform(10, 50, n_samples)
+    internal_test_2 = np.random.uniform(10, 50, n_samples)
+    assignment_score = np.random.uniform(40, 100, n_samples)
+    study_hours_weekly = np.random.uniform(2, 25, n_samples)
 
-try:
-    model = load_model()
-except Exception:
-    st.error(
-        "Trained model not found. Run `python model/train_model.py` first."
+    composite_score = (
+        0.30 * attendance
+        + 0.25 * (internal_test_1 * 2)
+        + 0.25 * (internal_test_2 * 2)
+        + 0.10 * assignment_score
+        + 0.10 * (study_hours_weekly * 4)
     )
-    st.stop()
+
+    labels = np.where(composite_score < 62, 1, 0)
+
+    X = pd.DataFrame(
+        {
+            "attendance": attendance,
+            "internal_test_1": internal_test_1,
+            "internal_test_2": internal_test_2,
+            "assignment_score": assignment_score,
+            "study_hours_weekly": study_hours_weekly,
+        }
+    )
+    y = labels
+
+    clf = RandomForestClassifier(
+        n_estimators=100, max_depth=6, random_state=42, class_weight="balanced"
+    )
+    clf.fit(X, y)
+    return clf
+
+
+model = get_trained_model()
 
 # Input layout
 st.sidebar.header("Student Academic Indicators")
