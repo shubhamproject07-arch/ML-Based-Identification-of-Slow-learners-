@@ -1,0 +1,37 @@
+@"
+# ML-Based Identification of Slow Learners
+
+An applied machine learning system designed to identify students requiring early academic intervention based on attendance trends, internal assessments, and coursework engagement.
+
+## Architecture & Features
+- **Predictive Engine:** Random Forest Classifier trained on multidimensional student metrics.
+- **Explainability:** Evaluates key leading indicators (internal testing, assignment rates, study hours).
+- **Interactive UI:** Streamlit-powered dashboard for educators to evaluate risk tiers instantly.
+
+## Tech Stack
+- **Languages & Libraries:** Python, scikit-learn, Pandas, NumPy, Joblib
+- **Frontend / Dashboard:** Streamlit
+
+## Setup & Execution
+
+1. **Clone the repository:**
+   \`\`\`bash
+   git clone https://github.com/shubhamproject07-arch/ML-Based-Identification-of-Slow-learners-.git
+   cd ML-Based-Identification-of-Slow-learners-
+   \`\`\`
+
+2. **Install dependencies:**
+   \`\`\`bash
+   pip install -r requirements.txt
+   \`\`\`
+
+3. **Train the model (Optional - pre-trained model included):**
+   \`\`\`bash
+   python model/train_model.py
+   \`\`\`
+
+4. **Launch the Streamlit dashboard:**
+   \`\`\`bash
+   streamlit run app.py
+   \`\`\`
+"@ | Set-Content -Encoding UTF8 README.md
